@@ -18,7 +18,7 @@ class httpCall {
             System.out.println("Args:" + args[0]);
             url_string = args[0];
         } else {
-            url_string = "https://www.qa-dest.imprev.net";
+            url_string = "https://www.apple.com";
         }
         System.out.println(url_string);
         URL url = new URL(url_string);

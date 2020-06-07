@@ -1,0 +1,441 @@
+<html>
+  <head>
+  </head>
+  <body style="background-color:#000000;">
+
+  	<!-- These data values get overrridden immediately, but it needed to succeed once to make sure it renders properly.  I picked "The Spirit of God" because it has two pages. -->
+  	<object id="page1" data="https://media.ldscdn.org/pdf/music/hymns/2001-01-0020-the-spirit-of-god-eng.pdf#page=2&view=FitV,top&scrollbar=0" type="application/pdf" width="50%" height="98%" align="left" style="float:left"></object>
+  	<object id="page2" data="https://media.ldscdn.org/pdf/music/hymns/2001-01-0020-the-spirit-of-god-eng.pdf#page=2&view=FitV,top&scrollbar=0" type="application/pdf" width="50%" height="98%" align="right" style="float:right"></object>
+
+  	<button onclick="prevHymn()">Previous</button>
+  	<button onclick="nextHymn()">Next</button>
+  	<input type="text" placeholder="Hymn..." id="hymnInput" size=5 autofocus>
+  	<button onclick="loadInputHymn()">Load</button>
+  	<button onclick="loadRandomHymn()">Random!</button>
+	
+	<script>
+		////
+		// Hymns
+		////
+		var hymns = {
+		     1: "0010-the-morning-breaks-eng.pdf",
+		     2: "0020-the-spirit-of-god-eng.pdf",
+		     3: "0030-now-let-us-rejoice-eng.pdf",
+		     4: "0040-truth-eternal-eng.pdf",
+		     5: "0050-high-on-the-mountain-top-eng.pdf",
+		     6: "0060-redeemer-of-israel-eng.pdf",
+		     7: "0070-israel-israel-god-is-calling-eng.pdf",
+		     8: "0080-awake-and-arise-eng.pdf",
+		     9: "0090-come-rejoice-eng.pdf",
+		    10: "0100-come-sing-to-the-lord-eng.pdf",
+		    11: "0110-what-was-witnessed-in-the-heavens-eng.pdf",
+		    12: "0120_missing.txt",
+		    13: "0130-an-angel-from-on-high-eng.pdf",
+		    14: "0140-sweet-is-the-peace-the-gospel-brings-eng.pdf",
+		    15: "0150_missing.txt",
+		    16: "0160-what-glorious-scenes-mine-eyes-behold-eng.pdf",
+		    17: "0170-awake-ye-saints-of-god-awake-eng.pdf",
+		    18: "0180-the-voice-of-god-again-is-heard-eng.pdf",
+		    19: "0190-we-thank-thee-o-god-for-a-prophet-eng.pdf",
+		    20: "0200-god-of-power-god-of-right-eng.pdf",
+		    21: "0210-come-listen-to-a-prophets-voice-eng.pdf",
+		    22: "0220-we-listen-to-a-prophets-voice-eng.pdf",
+		    23: "0230-we-ever-pray-for-thee-eng.pdf",
+		    24: "0240-god-bless-our-prophet-dear-eng.pdf",
+		    25: "0250-now-well-sing-with-one-accord-eng.pdf",
+		    26: "0260-joseph-smiths-first-prayer-eng.pdf",
+		    27: "0270-praise-to-the-man-eng.pdf",
+		    28: "0280-saints-behold-how-great-jehovah-eng.pdf",
+		    29: "0290-a-poor-wayfaring-man-of-grief-eng.pdf",
+		    30: "0300-come-come-ye-saints-eng.pdf",
+		    31: "0310-o-god-our-help-in-ages-past-eng.pdf",
+		    32: "0320-the-happy-day-at-last-has-come-eng.pdf",
+		    33: "0330-our-mountain-home-so-dear-eng.pdf",
+		    34: "0340-o-ye-mountains-high-eng.pdf",
+		    35: "0350-for-the-strength-of-the-hills-eng.pdf",
+		    36: "0360-they-the-builders-of-the-nation-eng.pdf",
+		    37: "0370-the-wintry-day-descending-to-its-close-eng.pdf",
+		    38: "0380-come-all-ye-saints-of-zion-eng.pdf",
+		    39: "0390-o-saints-of-zion-eng.pdf",
+		    40: "0400-arise-o-glorious-zion-eng.pdf",
+		    41: "0410-let-zion-in-her-beauty-rise-eng.pdf",
+		    42: "0420-hail-to-the-brightness-of-zions-glad-morning-eng.pdf",
+		    43: "0430-zion-stands-with-hills-surrounded-eng.pdf",
+		    44: "0440-beautiful-zion-built-above-eng.pdf",
+		    45: "0450-lead-me-into-life-eternal-eng.pdf",
+		    46: "0460-glorious-things-of-thee-are-spoken-eng.pdf",
+		    47: "0470-we-will-sing-of-zion-eng.pdf",
+		    48: "0480-glorious-things-are-sung-of-zion-eng.pdf",
+		    49: "0490-adam-ondi-ahman-eng.pdf",
+		    50: "0500-come-thou-glorious-day-of-promise-eng.pdf",
+		    51: "0510-sons-of-michael-he-approaches-eng.pdf",
+		    52: "0520-the-day-dawn-is-breaking-eng.pdf",
+		    53: "0530-let-earths-inhabitants-rejoice-eng.pdf",
+		    54: "0540_missing.txt",
+		    55: "0550-lo-the-mighty-god-appearing-eng.pdf",
+		    56: "0560-softly-beams-the-sacred-dawning-eng.pdf",
+		    57: "0570-were-not-ashamed-to-own-our-lord-eng.pdf",
+		    58: "0580-come-ye-children-of-the-lord-eng.pdf",
+		    59: "0590-come-o-thou-king-of-kings-eng.pdf",
+		    60: "0600-battle-hymn-of-the-republic-eng.pdf",
+		    61: "0610-raise-your-voices-to-the-lord-eng.pdf",
+		    62: "0620_missing.txt",
+		    63: "0630-great-king-of-heaven-eng.pdf",
+		    64: "0640-on-this-day-of-joy-and-gladness-eng.pdf",
+		    65: "0650-come-all-ye-saints-who-dwell-on-earth-eng.pdf",
+		    66: "0660-rejoice-the-lord-is-king-eng.pdf",
+		    67: "0670-glory-to-god-on-high-eng.pdf",
+		    68: "0680-a-mighty-fortress-is-our-god-eng.pdf",
+		    69: "0690-all-glory-laud-and-honor-eng.pdf",
+		    70: "0700-sing-praise-to-him-eng.pdf",
+		    71: "0710-with-songs-of-praise-eng.pdf",
+		    72: "0720-praise-to-the-lord-the-almighty-eng.pdf",
+		    73: "0730-praise-the-lord-with-heart-and-voice-eng.pdf",
+		    74: "0740-praise-ye-the-lord-eng.pdf",
+		    75: "0750-in-hymns-of-praise-eng.pdf",
+		    76: "0760-god-of-our-fathers-we-come-unto-thee-eng.pdf",
+		    77: "0770-great-is-the-lord-eng.pdf",
+		    78: "0780-god-of-our-fathers-whose-almighty-hand-eng.pdf",
+		    79: "0790-with-all-the-power-of-heart-and-tongue-eng.pdf",
+		    80: "0800-god-of-our-fathers-known-of-old-eng.pdf",
+		    81: "0810-press-forward-saints-eng.pdf",
+		    82: "0820_missing.txt",
+		    83: "0830-guide-us-o-thou-great-jehovah-eng.pdf",
+		    84: "0840-faith-of-our-fathers-eng.pdf",
+		    85: "0850-how-firm-a-foundation-eng.pdf",
+		    86: "0860_missing.txt",
+		    87: "0870-god-is-love-eng.pdf",
+		    88: "0880-great-god-attend-while-zion-sings-eng.pdf",
+		    89: "0890-the-lord-is-my-light-eng.pdf",
+		    90: "0900-from-all-that-dwell-below-the-skies-eng.pdf",
+		    91: "0910-father-thy-children-to-thee-now-raise-eng.pdf",
+		    92: "0920-for-the-beauty-of-the-earth-eng.pdf",
+		    93: "0930-prayer-of-thanksgiving-eng.pdf",
+		    94: "0940-come-ye-thankful-people-eng.pdf",
+		    95: "0950-now-thank-we-all-our-god-eng.pdf",
+		    96: "0960-dearest-children-god-is-near-you-eng.pdf",
+		    97: "0970-lead-kindly-light-eng.pdf",
+		    98: "0980-i-need-thee-every-hour-eng.pdf",
+		    99: "0990-nearer-dear-savior-to-thee-eng.pdf",
+		   100: "1000-nearer-my-god-to-thee-eng.pdf",
+		   101: "1010-guide-me-to-thee-eng.pdf",
+		   102: "1020-jesus-lover-of-my-soul-eng.pdf",
+		   103: "1030-precious-savior-dear-redeemer-eng.pdf",
+		   104: "1040-jesus-savior-pilot-me-eng.pdf",
+		   105: "1050-master-the-tempest-is-raging-eng.pdf",
+		   106: "1060-god-speed-the-right-eng.pdf",
+		   107: "1070-lord-accept-our-true-devotion-eng.pdf",
+		   108: "1080-the-lord-is-my-shepherd-eng.pdf",
+		   109: "1090-the-lord-my-pasture-will-prepare-eng.pdf",
+		   110: "1100-cast-thy-burden-upon-the-lord-eng.pdf",
+		   111: "1110-rock-of-ages-eng.pdf",
+		   112: "1120-savior-redeemer-of-my-soul-eng.pdf",
+		   113: "1130-our-saviors-love-eng.pdf",
+		   114: "1140-come-unto-him-eng.pdf",
+		   115: "1150-come-ye-disconsolate-eng.pdf",
+		   116: "1160-come-follow-me-eng.pdf",
+		   117: "1170-come-unto-jesus-eng.pdf",
+		   118: "1180-ye-simple-souls-who-stray-eng.pdf",
+		   119: "1190-come-we-that-love-the-lord-eng.pdf",
+		   120: "1200-lean-on-my-ample-arm-eng.pdf",
+		   121: "1210-im-a-pilgrim-im-a-stranger-eng.pdf",
+		   122: "1220-though-deepening-trials-eng.pdf",
+		   123: "1230-oh-may-my-soul-commune-with-thee-eng.pdf",
+		   124: "1240_missing.txt",
+		   125: "1250-how-gentle-gods-commands-eng.pdf",
+		   126: "1260-how-long-o-lord-most-holy-and-true-eng.pdf",
+		   127: "1270-does-the-journey-seem-long-eng.pdf",
+		   128: "1280-when-faith-endures-eng.pdf",
+		   129: "1290-where-can-i-turn-for-peace-eng.pdf",
+		   130: "1300-be-thou-humble-eng.pdf",
+		   131: "1310-more-holiness-give-me-eng.pdf",
+		   132: "1320-god-is-in-his-holy-temple-eng.pdf",
+		   133: "1330-father-in-heaven-eng.pdf",
+		   134: "1340-i-believe-in-christ-eng.pdf",
+		   135: "1350-my-redeemer-lives-eng.pdf",
+		   136: "1360-i-know-that-my-redeemer-lives-eng.pdf",
+		   137: "1370-testimony-eng.pdf",
+		   138: "1380-bless-our-fast-we-pray-eng.pdf",
+		   139: "1390-in-fasting-we-approach-thee-eng.pdf",
+		   140: "1400-did-you-think-to-pray-eng.pdf",
+		   141: "1410-jesus-the-very-thought-of-thee-eng.pdf",
+		   142: "1420-sweet-hour-of-prayer-eng.pdf",
+		   143: "1430_missing.txt",
+		   144: "1440-secret-prayer-eng.pdf",
+		   145: "1450-prayer-is-the-souls-sincere-desire-eng.pdf",
+		   146: "1460-gently-raise-the-sacred-strain-eng.pdf",
+		   147: "1470-sweet-is-the-work-eng.pdf",
+		   148: "1480-sabbath-day-eng.pdf",
+		   149: "1490-as-the-dew-from-heaven-distilling-eng.pdf",
+		   150: "1500-o-thou-kind-and-gracious-father-eng.pdf",
+		   151: "1510-we-meet-dear-lord-eng.pdf",
+		   152: "1520-god-be-with-you-till-we-meet-again-eng.pdf",
+		   153: "1530-lord-we-ask-thee-ere-we-part-eng.pdf",
+		   154: "1540-father-this-hour-has-been-one-of-joy-eng.pdf",
+		   155: "1550-we-have-partaken-of-thy-love-eng.pdf",
+		   156: "1560-sing-we-now-at-parting-eng.pdf",
+		   157: "1570-thy-spirit-lord-has-stirred-our-souls-eng.pdf",
+		   158: "1580-before-thee-lord-i-bow-my-head-eng.pdf",
+		   159: "1590-now-the-day-is-over-eng.pdf",
+		   160: "1600-softly-now-the-light-of-day-eng.pdf",
+		   161: "1610-the-lord-be-with-us-eng.pdf",
+		   162: "1620-lord-we-come-before-thee-now-eng.pdf",
+		   163: "1630-lord-dismiss-us-with-thy-blessing-eng.pdf",
+		   164: "1640-great-god-to-thee-my-evening-song-eng.pdf",
+		   165: "1650-abide-with-me-tis-eventide-eng.pdf",
+		   166: "1660-abide-with-me-eng.pdf",
+		   167: "1670-come-let-us-sing-an-evening-hymn-eng.pdf",
+		   168: "1680-as-the-shadows-fall-eng.pdf",
+		   169: "1690-as-now-we-take-the-sacrament-eng.pdf",
+		   170: "1700-god-our-father-hear-us-pray-eng.pdf",
+		   171: "1710-with-humble-heart-eng.pdf",
+		   172: "1720-in-humility-our-savior-eng.pdf",
+		   173: "1730-while-of-these-emblems-we-partake-eng.pdf",
+		   174: "1740-while-of-these-emblems-we-partake-eng.pdf",
+		   175: "1750-o-god-the-eternal-father-eng.pdf",
+		   176: "1760-tis-sweet-to-sing-the-matchless-love-eng.pdf",
+		   177: "1770-tis-sweet-to-sing-the-matchless-love-eng.pdf",
+		   178: "1780-o-lord-of-hosts-eng.pdf",
+		   179: "1790-again-our-dear-redeeming-lord-eng.pdf",
+		   180: "1800-father-in-heaven-we-do-believe-eng.pdf",
+		   181: "1810-jesus-of-nazareth-savior-and-king-eng.pdf",
+		   182: "1820-well-sing-all-hail-to-jesus-name-eng.pdf",
+		   183: "1830-in-remembrance-of-thy-suffering-eng.pdf",
+		   184: "1840-upon-the-cross-of-calvary-eng.pdf",
+		   185: "1850-reverently-and-meekly-now-eng.pdf",
+		   186: "1860-again-we-meet-around-the-board-eng.pdf",
+		   187: "1870-god-loved-us-so-he-sent-his-son-eng.pdf",
+		   188: "1880-thy-will-o-lord-be-done-eng.pdf",
+		   189: "1890-o-thou-before-the-world-began-eng.pdf",
+		   190: "1900-in-memory-of-the-crucified-eng.pdf",
+		   191: "1910-behold-the-great-redeemer-die-eng.pdf",
+		   192: "1920-he-died-the-great-redeemer-died-eng.pdf",
+		   193: "1930-i-stand-all-amazed-eng.pdf",
+		   194: "1940-there-is-a-green-hill-far-away-eng.pdf",
+		   195: "1950-how-great-the-wisdom-and-the-love-eng.pdf",
+		   196: "1960-jesus-once-of-humble-birth-eng.pdf",
+		   197: "1970-o-savior-thou-who-wearest-a-crown-eng.pdf",
+		   198: "1980-that-easter-morn-eng.pdf",
+		   199: "1990-he-is-risen-eng.pdf",
+		   200: "2000-christ-the-lord-is-risen-today-eng.pdf",
+		   201: "2010-joy-to-the-world-eng.pdf",
+		   202: "2020-oh-come-all-ye-faithful-eng.pdf",
+		   203: "2030-angels-we-have-heard-on-high-eng.pdf",
+		   204: "2040-silent-night-eng.pdf",
+		   205: "2050-once-in-royal-davids-city-eng.pdf",
+		   206: "2060-away-in-a-manger-eng.pdf",
+		   207: "2070-it-came-upon-the-midnight-clear-eng.pdf",
+		   208: "2080-o-little-town-of-bethlehem-eng.pdf",
+		   209: "2090-hark-the-herald-angels-sing-eng.pdf",
+		   210: "2100-with-wondering-awe-eng.pdf",
+		   211: "2110-while-shepherds-watched-their-flocks-eng.pdf",
+		   212: "2120-far-far-away-on-judeas-plains-eng.pdf",
+		   213: "2130-the-first-noel-eng.pdf",
+		   214: "2140-i-heard-the-bells-on-christmas-day-eng.pdf",
+		   215: "2150-ring-out-wild-bells-eng.pdf",
+		   216: "2160-we-are-sowing-eng.pdf",
+		   217: "2170-come-let-us-anew-eng.pdf",
+		   218: "2180-we-give-thee-but-thine-own-eng.pdf",
+		   219: "2190_missing.txt",
+		   220: "2200-lord-i-would-follow-thee-eng.pdf",
+		   221: "2210-dear-to-the-heart-of-the-shepherd-eng.pdf",
+		   222: "2220-hear-thou-our-hymn-o-lord-eng.pdf",
+		   223: "2230-have-i-done-any-good-eng.pdf",
+		   224: "2240-i-have-work-enough-to-do-eng.pdf",
+		   225: "2250-we-are-marching-on-to-glory-eng.pdf",
+		   226: "2260-improve-the-shining-moments-eng.pdf",
+		   227: "2270-there-is-sunshine-in-my-soul-today-eng.pdf",
+		   228: "2280-you-can-make-the-pathway-bright-eng.pdf",
+		   229: "2290-today-while-the-sun-shines-eng.pdf",
+		   230: "2300-scatter-sunshine-eng.pdf",
+		   231: "2310-father-cheer-our-souls-tonight-eng.pdf",
+		   232: "2320-let-us-oft-speak-kind-words-eng.pdf",
+		   233: "2330-nay-speak-no-ill-eng.pdf",
+		   234: "2340-jesus-mighty-king-in-zion-eng.pdf",
+		   235: "2350-should-you-feel-inclined-to-censure-eng.pdf",
+		   236: "2360-lord-accept-into-thy-kingdom-eng.pdf",
+		   237: "2370-do-what-is-right-eng.pdf",
+		   238: "2380-behold-thy-sons-and-daughters-lord-eng.pdf",
+		   239: "2390-choose-the-right-eng.pdf",
+		   240: "2400-know-this-that-every-soul-is-free-eng.pdf",
+		   241: "2410-count-your-blessings-eng.pdf",
+		   242: "2420-praise-god-from-whom-all-blessings-flow-eng.pdf",
+		   243: "2430-let-us-all-press-on-eng.pdf",
+		   244: "2440-come-along-come-along-eng.pdf",
+		   245: "2450-this-house-we-dedicate-to-thee-eng.pdf",
+		   246: "2460-onward-christian-soldiers-eng.pdf",
+		   247: "2470-we-love-thy-house-o-god-eng.pdf",
+		   248: "2480-up-awake-ye-defenders-of-zion-eng.pdf",
+		   249: "2490-called-to-serve-eng.pdf",
+		   250: "2500-we-are-all-enlisted-eng.pdf",
+		   251: "2510-behold-a-royal-army-eng.pdf",
+		   252: "2520-put-your-shoulder-to-the-wheel-eng.pdf",
+		   253: "2530-like-ten-thousand-legions-marching-eng.pdf",
+		   254: "2540-true-to-the-faith-eng.pdf",
+		   255: "2550-carry-on--eng.pdf",
+		   256: "2560-as-zions-youth-in-latter-days-eng.pdf",
+		   257: "2570-rejoice-a-glorious-sound-is-heard-eng.pdf",
+		   258: "2580-o-thou-rock-of-our-salvation-eng.pdf",
+		   259: "2590-hope-of-israel-eng.pdf",
+		   260: "2600-whos-on-the-lords-side-eng.pdf",
+		   261: "2610-thy-servants-are-prepared-eng.pdf",
+		   262: "2620-go-ye-messengers-of-glory-eng.pdf",
+		   263: "2630-go-forth-with-faith-eng.pdf",
+		   264: "2640-hark-all-ye-nations-eng.pdf",
+		   265: "2650-arise-o-god-and-shine-eng.pdf",
+		   266: "2660-the-time-is-far-spent-eng.pdf",
+		   267: "2670-how-wondrous-and-great-eng.pdf",
+		   268: "2680-come-all-whose-souls-are-lighted-eng.pdf",
+		   269: "2690-jehovah-lord-of-heaven-and-earth-eng.pdf",
+		   270: "2700-ill-go-where-you-want-me-to-go-eng.pdf",
+		   271: "2710-oh-holy-words-of-truth-and-love-eng.pdf",
+		   272: "2720-oh-say-what-is-truth-eng.pdf",
+		   273: "2730-truth-reflects-upon-our-senses-eng.pdf",
+		   274: "2740-the-iron-rod-eng.pdf",
+		   275: "2750-men-are-that-they-might-have-joy-eng.pdf",
+		   276: "2760-come-away-to-the-sunday-school-eng.pdf",
+		   277: "2770-as-i-search-the-holy-scriptures-eng.pdf",
+		   278: "2780-thanks-for-the-sabbath-school-eng.pdf",
+		   279: "2790-thy-holy-word-eng.pdf",
+		   280: "2800-welcome-welcome-sabbath-morning-eng.pdf",
+		   281: "2810-help-me-teach-with-inspiration-eng.pdf",
+		   282: "2820-we-meet-again-in-sabbath-school-eng.pdf",
+		   283: "2830-the-glorious-gospel-light-has-shone-eng.pdf",
+		   284: "2840_missing.txt",
+		   285: "2850-god-moves-in-a-mysterious-way-eng.pdf",
+		   286: "2860-oh-what-songs-of-the-heart-eng.pdf",
+		   287: "2870-rise-ye-saints-and-temples-enter-eng.pdf",
+		   288: "2880-how-beautiful-thy-temples-lord-eng.pdf",
+		   289: "2890-holy-temples-on-mount-zion-eng.pdf",
+		   290: "2900-rejoice-ye-saints-of-latter-days-eng.pdf",
+		   291: "2910-turn-your-hearts-eng.pdf",
+		   292: "2920-o-my-father-eng.pdf",
+		   293: "2930-each-life-that-touches-ours-for-good-eng.pdf",
+		   294: "2940-love-at-home-eng.pdf",
+		   295: "2950-o-love-that-glorifies-the-son-eng.pdf",
+		   296: "2960-our-father-by-whose-name-eng.pdf",
+		   297: "2970-from-homes-of-saints-glad-songs-arise-eng.pdf",
+		   298: "2980-home-can-be-a-heaven-on-earth-eng.pdf",
+		   299: "2990_missing.txt",
+		   300: "3000-families-can-be-together-forever-eng.pdf",
+		   301: "3010-i-am-a-child-of-god-eng.pdf",
+		   302: "3020-i-know-my-father-lives-eng.pdf",
+		   303: "3030-keep-the-commandments-eng.pdf",
+		   304: "3040-teach-me-to-walk-in-the-light-eng.pdf",
+		   305: "3050-the-light-divine-eng.pdf",
+		   306: "3060-gods-daily-care-eng.pdf",
+		   307: "3070-in-our-lovely-deseret-eng.pdf",
+		   308: "3080-love-one-another-eng.pdf",
+		   309: "3090-as-sisters-in-zion-women-eng.pdf",
+		   310: "3100-a-key-was-turned-in-latter-days-women-eng.pdf",
+		   311: "3110-we-meet-again-as-sisters-women-eng.pdf",
+		   312: "3120-we-ever-pray-for-thee-women-eng.pdf",
+		   313: "3130-god-is-love-women-eng.pdf",
+		   314: "3140-how-gentle-gods-commands-women-eng.pdf",
+		   315: "3150-jesus-the-very-thought-of-thee-women-eng.pdf",
+		   316: "3160-the-lord-is-my-shepherd-women-eng.pdf",
+		   317: "3170-sweet-is-the-work-women-eng.pdf",
+		   318: "3180-love-at-home-women-eng.pdf",
+		   319: "3190-ye-elders-of-israel-men-eng.pdf",
+		   320: "3200-the-priesthood-of-our-lord-men-eng.pdf",
+		   321: "3210-ye-who-are-called-to-labor-men-eng.pdf",
+		   322: "3220-come-all-ye-sons-of-god-men-eng.pdf",
+		   323: "3230-rise-up-o-men-of-god-mens-choir-eng.pdf",
+		   324: "3240-rise-up-o-men-of-god-men-eng.pdf",
+		   325: "3250-see-the-mighty-priesthood-gathered-mens-choir-eng.pdf",
+		   326: "3260-come-come-ye-saints-mens-choir-eng.pdf",
+		   327: "3270-go-ye-messengers-of-heaven-mens-choir-eng.pdf",
+		   328: "3280-an-angel-from-on-high-mens-choir-eng.pdf",
+		   329: "3290-thy-servants-are-prepared-mens-choir-eng.pdf",
+		   330: "3300-see-the-mighty-angel-flying-mens-choir-eng.pdf",
+		   331: "3310-oh-say-what-is-truth-mens-choir-eng.pdf",
+		   332: "3320-come-o-thou-king-of-kings-mens-choir-eng.pdf",
+		   333: "3330-high-on-the-mountain-top-mens-choir-eng.pdf",
+		   334: "3340-i-need-thee-every-hour-mens-choir-eng.pdf",
+		   335: "3350-brightly-beams-our-fathers-mercy-mens-choir-eng.pdf",
+		   336: "3360-school-thy-feelings-mens-choir-eng.pdf",
+		   337: "3370-o-home-beloved-mens-choir-eng.pdf",
+		   338: "3380-america-the-beautiful-eng.pdf",
+		   339: "3390-my-country-tis-of-thee-eng.pdf",
+		   340: "3400-the-star-spangled-banner-eng.pdf",
+		   341: "3410-god-save-the-king-eng.pdf"
+		}
+
+		var url;
+		var baseurl = "https://media.ldscdn.org/pdf/music/hymns/2001-01-";
+		var current_hymn = Math.floor(Math.random() * 341);
+
+
+		function loadHymn(hymn_number) {
+			var hymn_name = hymns[hymn_number];
+			if (hymn_name.includes("missing")) {
+				console.log("This hymn is unavailable due to copyright constraints.");
+			} else {
+				url = baseurl + hymns[hymn_number];
+				var p1 = document.getElementById("page1");
+				p1.setAttribute('data', url + "#page=1&view=FitV,top&scrollbar=0");
+				var p2 = document.getElementById("page2");
+				p2.setAttribute('data', url + "#page=2&view=FitV,top&scrollbar=0");
+			}
+			var input = document.getElementById("hymnInput");
+			input.value = hymn_number;
+		}
+
+		function loadInputHymn() {
+			var input = document.getElementById("hymnInput").value;
+			var num = parseInt(input);
+			loadHymn(num);
+			current_hymn = num;
+		}
+
+		function loadRandomHymn() {
+			var current_hymn = Math.floor(Math.random() * 341);
+			loadHymn(current_hymn);
+		}
+
+		function nextHymn() {
+			current_hymn = current_hymn + 1;
+			if (current_hymn > 341) {
+				current_hymn = 1;
+			}
+			loadHymn(current_hymn);
+		}
+
+		function prevHymn() {
+			current_hymn = current_hymn - 1;
+			if (current_hymn < 1) {
+				current_hymn = 341;
+			}
+			loadHymn(current_hymn);
+		}
+
+		loadHymn(current_hymn);
+
+		document.onkeydown = function(event) {
+	        switch (event.keyCode) {
+	        	case 37: // left cursor
+	            	prevHymn();
+	            	break;
+	        	case 39: // right cursor
+	            	nextHymn();
+	            	break;
+	            case 82: // "r"
+					loadRandomHymn();
+					break;
+				case 13: // "Enter"
+					current_hymn = document.getElementById("hymnInput").value;
+				    loadInputHymn();
+				    document.getElementById("hymnInput").select();
+				    break;
+	        }
+	    };
+	    var textInputObj = document.getElementById("hymnInput");
+	    textInputObj.addEventListener("focus", function() {
+	    	console.log("got focus");
+			// this.select;
+			// this.setSelectionRange( 6,  19 );
+			document.getElementById("hymnInput").select();
+	    })
+	</script>
+  </body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="description" content="Simple point tally">
+  <meta name="theme-color" content="#317EFB"/>
+  <title>Point Tracker</title>
+
+  <link rel="stylesheet" href="css/app.css">
+  <link rel="apple-touch-icon" href="img/favicon-192.png">
+  <link rel="shortcut icon" href="img/favicon.png" type="image/x-icon">
+  <link rel="manifest" href="manifest.json">
+</head>
+
+<body>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 offset-md-3">
+        <h1 class="display-4 text-center mb-3">
+          Point Tracker
+        </h1>
+        <form>
+          <div class="form-group">
+            <input type="number" class="form-control form-control-lg" id="ptsInput" placeholder="Enter points..">
+            <button type='button' id="btnAdd">ADD</button>
+            <button type='button' id="btnRem">REMOVE</button>
+          </div>
+        </form>
+        <div id="output">
+          <div class="card bg-primary mb-2">
+            <div class="card-block">
+              <h4>Added:</h4>
+              <div id="added"></div>
+            </div>
+          </div>
+
+          <div class="card bg-success mb-2">
+            <div class="card-block">
+              <h4>Total Today:</h4>
+              <div id="total"></div>
+            </div>
+          </div>
+
+          <div class="card bg-danger mb-2">
+            <div class="card-block">
+              <h4>Week Average:</h4>
+              <div id="avg"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/app.js"></script>
+  <script src="js/main.js"></script>
+</body>
+
+</html>

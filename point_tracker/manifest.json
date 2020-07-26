@@ -1,0 +1,26 @@
+{
+  "name": "Point Tracker",
+  "short_name": "PT",
+  "display": "fullscreen",
+  "start_url": "https://akacc.net/points/",
+  "icons": [
+    {
+      "src": "./img/favicon.png",
+      "type": "image/png",
+      "sizes": "52x52"
+    },
+    {
+      "src": "./img/favicon-192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "./img/favicon-512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "prefer_related_applications": false,
+  "theme_color": "black",
+  "background_color": "black"
+}

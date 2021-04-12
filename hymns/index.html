@@ -4,8 +4,8 @@
   <body style="background-color:#000000;">
 
   	<!-- These data values get overrridden immediately, but it needed to succeed once to make sure it renders properly.  I picked "The Spirit of God" because it has two pages. -->
-  	<object id="page1" data="https://media.ldscdn.org/pdf/music/hymns/2001-01-0020-the-spirit-of-god-eng.pdf#page=2&view=FitV,top&scrollbar=0" type="application/pdf" width="50%" height="98%" align="left" style="float:left"></object>
-  	<object id="page2" data="https://media.ldscdn.org/pdf/music/hymns/2001-01-0020-the-spirit-of-god-eng.pdf#page=2&view=FitV,top&scrollbar=0" type="application/pdf" width="50%" height="98%" align="right" style="float:right"></object>
+  	<object id="page1" data="https://akacc.net/hymns/2001-01-hymns-sheet-music-eng/2001-01-0020-the-spirit-of-god-eng.pdf#page=2&view=FitV,top&scrollbar=0" type="application/pdf" width="50%" height="98%" align="left" style="float:left"></object>
+  	<object id="page2" data="https://akacc.net/hymns/2001-01-hymns-sheet-music-eng/2001-01-0020-the-spirit-of-god-eng.pdf#page=2&view=FitV,top&scrollbar=0" type="application/pdf" width="50%" height="98%" align="right" style="float:right"></object>
 
   	<button onclick="prevHymn()">Previous</button>
   	<button onclick="nextHymn()">Next</button>
@@ -363,6 +363,7 @@
 
 		var url;
 		var baseurl = "https://media.ldscdn.org/pdf/music/hymns/2001-01-";
+		var baseurl = "https://akacc.net/hymns/2001-01-hymns-sheet-music-eng/2001-01-";
 		var current_hymn = Math.floor(Math.random() * 341);
 
 
